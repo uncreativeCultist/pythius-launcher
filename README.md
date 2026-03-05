@@ -1,4 +1,4 @@
-# lce-launcher
-cross-platform launcher for c++ version of a certain game
+# Pythius Launcher
+A lightweight, cross-platform launcher for a c++ port of a certain game
 
-![screenshot of lce launcher](https://i.ibb.co/gYV1Q66/image.png)
+![screenshot of pythius launcher](https://i.ibb.co/Zp63fZVj/image.png)
