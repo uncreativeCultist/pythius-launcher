@@ -5,17 +5,9 @@ from zipfile import ZipFile
 import urllib.request
 import shutil
 
-if platform == "linux" or platform == "linux2":
-    platform_pretty = "Linux"
-    needs_wine = 1
-elif platform == "darwin":
-    platform_pretty = "MacOS"
-    needs_wine = 1
-elif platform == "win32":
-    platform_pretty = "Windows"
+if platform == "win32":
     needs_wine = 0
 else:
-    platform_pretty = "Unknown"
     needs_wine = 1 #i mean its not windows so it probably needs wine
 
 
@@ -49,7 +41,7 @@ def singleplayer():
     if os.path.exists(f'{directory}username.txt'):
         os.remove(f'{directory}username.txt')
     with open(f"{directory}username.txt", "w") as f:
-      f.write(f"{username}")
+        f.write(f"{username}")
     if not os.path.exists(directory):
         dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
     elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
@@ -60,34 +52,6 @@ def singleplayer():
     else:
         os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}"')
         dpg.set_value("status", "Ready!")
-    
-
-
-    
-#def multiplayer():
-#    directory = dpg.get_value(item="directory")
-#    ipaddr = dpg.get_value(item="ipaddr")
-#    port = dpg.get_value(item="port")
-#    username = dpg.get_value(item="username")
-#    dpg.set_value("status", "Launching Legacy Console Edition...")
-#    if os.path.exists(f'{directory}servers.txt'):
-#        os.remove(f'{directory}servers.txt')
-#        with open(f'{directory}servers.txt', 'w') as file:
-#            file.write(f'{ipaddr}\n{port}\nConnect to server')
-#    if os.path.exists(f'{directory}username.txt'):
-#        os.remove(f'{directory}username.txt')
-#    with open(f"{directory}username.txt", "w") as f:
-#      f.write(f"{username}")
-#    if not os.path.exists(directory):
-#        dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
-#    elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
-#        dpg.set_value("status", "Malformed or missing game files! Please reinstall Legacy Console Edition.")
-#    elif needs_wine == 1:
-#        os.system(f'cd {directory} && wine Minecraft.Client.exe -name "{username}" -ip "{ipaddr}" -port "{port}"')
-#        dpg.set_value("status", "Ready!")
-#    else:
-#        os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}" -ip "{ipaddr}" -port "{port}"')
-#        dpg.set_value("status", "Ready!")
 
 width, height, channels, data = dpg.load_image("./Resources/pythius.png")
 
@@ -115,23 +79,18 @@ with dpg.window(tag="Primary Window"):
     
     
     dpg.add_input_text(label="Username", source="username", width=240)
-    #wtf do you MEAN nobody actually implemented the direct ip stuff????????
     dpg.add_text(" ")
-    #dpg.add_text("Note: Multiplayer settings are currently hidden.")
-    #dpg.add_text("WAN Multiplayer is yet to be implemented.")
     dpg.add_text("Multiplayer Settings")
     dpg.add_input_text(label="IP Address", source="ipaddr", width=85)
     
     dpg.add_input_text(label="Port", source="port", width=45)
     
-#    dpg.add_button(label="Launch Minecraft: Legacy Console Edition", callback=singleplayer)
     dpg.add_button(label="Launch Minecraft: Legacy Console Edition", callback=singleplayer, width=330, pos=(439, 240))
-    #dpg.add_button(label="Connect to server", callback=multiplayer, width=160, pos=(439, 240))
     dpg.add_text(" ")
     dpg.add_text("Status:")
     dpg.add_text(source="status")
 
-dpg.create_viewport(title="Pythius - @uncreativeCultist - v03052339", width=784, height=361)
+dpg.create_viewport(title="Pythius - @uncreativeCultist - v1.0.3a", width=784, height=361)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("Primary Window", True)
