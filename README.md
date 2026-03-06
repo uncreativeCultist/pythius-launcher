@@ -2,7 +2,10 @@
 A lightweight, cross-platform launcher for a c++ port of a certain game  
 Please note, I'm developing this for fun, and in my spare time. Please don't push me to add features!  
 If you desperately want something added, feel free to do it yourself and open a pull request! ^^
-![screenshot of pythius launcher](Resources/Screenshots/rebrand.png)
+
+# Screenshots
+![screenshot of pythius launcher](Resources/Screenshots/rebrand.png)  
+  
 ![screenshot of two players](Resources/Screenshots/firstmpsession.png)
 
 # Project goals
