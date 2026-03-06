@@ -38,9 +38,18 @@ def download():
 
 def singleplayer():
     directory = dpg.get_value(item="directory")
+    ipaddr = dpg.get_value(item="ipaddr")
+    port = dpg.get_value(item="port")
     username = dpg.get_value(item="username")
     dpg.set_value("status", "Launching Legacy Console Edition...")
-
+    if os.path.exists(f'{directory}servers.txt'):
+        os.remove(f'{directory}servers.txt')
+        with open(f'{directory}servers.txt', 'w') as file:
+            file.write(f'{ipaddr}\n{port}\nConnect to server')
+    if os.path.exists(f'{directory}username.txt'):
+        os.remove(f'{directory}username.txt')
+    with open(f"{directory}username.txt", "w") as f:
+      f.write(f"{username}")
     if not os.path.exists(directory):
         dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
     elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
@@ -55,26 +64,30 @@ def singleplayer():
 
 
     
-def multiplayer():
-    directory = dpg.get_value(item="directory")
-    ipaddr = dpg.get_value(item="ipaddr")
-    port = dpg.get_value(item="port")
-    username = dpg.get_value(item="username")
-    dpg.set_value("status", "Launching Legacy Console Edition...")
-    if os.path.exists(f'{directory}username.txt'):
-        os.remove(f'{directory}username.txt')
-    with open(f"{directory}username.txt", "w") as f:
-      f.write(f"{username}")
-    if not os.path.exists(directory):
-        dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
-    elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
-        dpg.set_value("status", "Malformed or missing game files! Please reinstall Legacy Console Edition.")
-    elif needs_wine == 1:
-        os.system(f'cd {directory} && wine Minecraft.Client.exe -name "{username}" -ip "{ipaddr}" -port "{port}"')
-        dpg.set_value("status", "Ready!")
-    else:
-        os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}" -ip "{ipaddr}" -port "{port}"')
-        dpg.set_value("status", "Ready!")
+#def multiplayer():
+#    directory = dpg.get_value(item="directory")
+#    ipaddr = dpg.get_value(item="ipaddr")
+#    port = dpg.get_value(item="port")
+#    username = dpg.get_value(item="username")
+#    dpg.set_value("status", "Launching Legacy Console Edition...")
+#    if os.path.exists(f'{directory}servers.txt'):
+#        os.remove(f'{directory}servers.txt')
+#        with open(f'{directory}servers.txt', 'w') as file:
+#            file.write(f'{ipaddr}\n{port}\nConnect to server')
+#    if os.path.exists(f'{directory}username.txt'):
+#        os.remove(f'{directory}username.txt')
+#    with open(f"{directory}username.txt", "w") as f:
+#      f.write(f"{username}")
+#    if not os.path.exists(directory):
+#        dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
+#    elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
+#        dpg.set_value("status", "Malformed or missing game files! Please reinstall Legacy Console Edition.")
+#    elif needs_wine == 1:
+#        os.system(f'cd {directory} && wine Minecraft.Client.exe -name "{username}" -ip "{ipaddr}" -port "{port}"')
+#        dpg.set_value("status", "Ready!")
+#    else:
+#        os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}" -ip "{ipaddr}" -port "{port}"')
+#        dpg.set_value("status", "Ready!")
 
 width, height, channels, data = dpg.load_image("./Resources/pythius.png")
 
@@ -112,13 +125,13 @@ with dpg.window(tag="Primary Window"):
     dpg.add_input_text(label="Port", source="port", width=45)
     
 #    dpg.add_button(label="Launch Minecraft: Legacy Console Edition", callback=singleplayer)
-    dpg.add_button(label="Launch Singleplayer", callback=singleplayer, width=160, pos=(609, 240))
-    dpg.add_button(label="Connect to server", callback=multiplayer, width=160, pos=(439, 240))
+    dpg.add_button(label="Launch Minecraft: Legacy Console Edition", callback=singleplayer, width=330, pos=(439, 240))
+    #dpg.add_button(label="Connect to server", callback=multiplayer, width=160, pos=(439, 240))
     dpg.add_text(" ")
     dpg.add_text("Status:")
     dpg.add_text(source="status")
 
-dpg.create_viewport(title="Pythius - @uncreativeCultist - v1.0.2", width=784, height=361)
+dpg.create_viewport(title="Pythius - @uncreativeCultist - v03052339", width=784, height=361)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("Primary Window", True)
