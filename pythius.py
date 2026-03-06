@@ -44,8 +44,8 @@ def singleplayer():
     dpg.set_value("status", "Launching Legacy Console Edition...")
     if os.path.exists(f'{directory}servers.txt'):
         os.remove(f'{directory}servers.txt')
-        with open(f'{directory}servers.txt', 'w') as file:
-            file.write(f'{ipaddr}\n{port}\nConnect to server')
+    with open(f'{directory}servers.txt', 'w') as file:
+        file.write(f'{ipaddr}\n{port}\nConnect to server')
     if os.path.exists(f'{directory}username.txt'):
         os.remove(f'{directory}username.txt')
     with open(f"{directory}username.txt", "w") as f:
