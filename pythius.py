@@ -4,6 +4,7 @@ import os
 from zipfile import ZipFile
 import urllib.request
 import shutil
+import subprocess
 
 if platform == "win32":
     needs_wine = 0
@@ -34,10 +35,29 @@ def singleplayer():
     port = dpg.get_value(item="port")
     username = dpg.get_value(item="username")
     dpg.set_value("status", "Launching Legacy Console Edition...")
-    if os.path.exists(f'{directory}servers.txt'):
-        os.remove(f'{directory}servers.txt')
-    with open(f'{directory}servers.txt', 'w') as file:
-        file.write(f'{ipaddr}\n{port}\nConnect to server')
+    if ipaddr == "P2P-HOST":
+        if os.path.exists(f'./Resources/FRP/frpc.toml'):
+            os.remove(f'./Resources/FRP/frpc.toml')
+        with open(f'./Resources/FRP/frpc.toml', 'w') as file:
+            file.write(f'serverAddr = "cultist.gay"\nserverPort = 48007\nauth.token = "abcdefg"\n\n[[proxies]]\nname = "{port}"\ntype = "xtcp"\nsecretKey="abcdefg"\nlocalIP = "127.0.0.1"\nlocalPort = 25565')
+            if os.path.exists(f'{directory}servers.txt'):
+                os.remove(f'{directory}servers.txt')
+            #with open(f'{directory}servers.txt', 'w') as file:
+            #    file.write(f'127.0.0.1\n25565\nConnect to server (P2P)')
+    elif ipaddr == "P2P-CLIENT":
+        if os.path.exists(f'./Resources/FRP/frpc.toml'):
+            os.remove(f'./Resources/FRP/frpc.toml')
+        with open(f'./Resources/FRP/frpc.toml', 'w') as file:
+            file.write(f'serverAddr = "cultist.gay"\nserverPort = 48007\nauth.token = "abcdefg"\n\n[[visitors]]\nname = "{username}_{port}"\ntype = "xtcp"\nserverName="{port}"\nsecretKey="abcdefg"\nbindAddr = "127.0.0.1"\nbindPort = 2525\nkeepTunnelOpen = true')
+            if os.path.exists(f'{directory}servers.txt'):
+                os.remove(f'{directory}servers.txt')
+            with open(f'{directory}servers.txt', 'w') as file:
+                file.write(f'127.0.0.1\n2525\nConnect to server (P2P)')
+    else:
+        if os.path.exists(f'{directory}servers.txt'):
+            os.remove(f'{directory}servers.txt')
+        with open(f'{directory}servers.txt', 'w') as file:
+            file.write(f'{ipaddr}\n{port}\nConnect to server')
     if os.path.exists(f'{directory}username.txt'):
         os.remove(f'{directory}username.txt')
     with open(f"{directory}username.txt", "w") as f:
@@ -47,11 +67,23 @@ def singleplayer():
     elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
         dpg.set_value("status", "Malformed or missing game files! Please reinstall Legacy Console Edition.")
     elif needs_wine == 1:
-        os.system(f'cd {directory} && wine Minecraft.Client.exe -name "{username}"')
-        dpg.set_value("status", "Ready!")
+        if ipaddr == "P2P-HOST" or ipaddr =="P2P-CLIENT":
+            #os.spawnl(os.P_NOWAIT, "/usr/bin/wine", "./Resources/FRP/frpc.exe", "--config", "./Resources/FRP/frpc.toml")
+            dpg.set_value("status", "P2P Enabled!")
+            os.system(f'./Resources/FRP/frpc --config ./Resources/FRP/frpc.toml & cd {directory} && wine Minecraft.Client.exe -name "{username}" && taskkill /f /im frpc')
+            dpg.set_value("status", "Ready!")
+        else:
+            os.system(f'cd {directory} && wine Minecraft.Client.exe -name "{username}"')
+            dpg.set_value("status", "Ready!")
     else:
-        os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}"')
-        dpg.set_value("status", "Ready!")
+        if ipaddr == "P2P-HOST" or ipaddr =="P2P-CLIENT":
+            #os.spawnl(os.P_NOWAIT, "./Resources/FRP/frpc.exe", "--config", "./Resources/FRP/frpc.toml")
+            dpg.set_value("status", "P2P Enabled!")
+            os.system(f'./Resources/FRP/frpc.exe --config ./Resources/FRP/frpc.toml & cd {directory} && Minecraft.Client.exe -name "{username}"')
+            dpg.set_value("status", "Ready!")
+        else:
+            os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}"')
+            dpg.set_value("status", "Ready!")
 
 width, height, channels, data = dpg.load_image("./Resources/pythius.png")
 
@@ -81,7 +113,7 @@ with dpg.window(tag="Primary Window"):
     dpg.add_input_text(label="Username", source="username", width=240)
     dpg.add_text(" ")
     dpg.add_text("Multiplayer Settings")
-    dpg.add_input_text(label="IP Address", source="ipaddr", width=85)
+    dpg.add_input_text(label="IP Address (or P2P-HOST/CLIENT)", source="ipaddr", width=85)
     
     dpg.add_input_text(label="Port", source="port", width=45)
     
