@@ -15,13 +15,12 @@ In order of importance, not necessarily order of implementation.
 ~~Strikethrough~~ means it will not be implemented, or doesn't fit within the scope of the project.
 - [x] Automatically download/install latest build
 - [x] Launch game and be able to change settings (i.e: name) without command line
-- [ ] **Full multiplayer support**
+- [x] Full multiplayer support
   - [x] LAN (Local) support
   - [x] WAN (Wireless) support
-  - [ ] **Dedicated Server support**
-  - [ ] **Invite Codes**
 - [ ] Automatically save config
-- [ ] Move worlds & settings between updates
+- [ ] **Move worlds & settings between updates**
+- [ ] Discord Rich Presence
 # Legal notice
 Pythius Launcher (hereby referred to as Pythius,) is intended for educational and research purposes only. 
 I, uncreativeCultist, along with any other Pythius contributors, do not encourage nor endorse usage of leaked/illicit software. 
