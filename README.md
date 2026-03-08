@@ -19,7 +19,7 @@ In order of importance, not necessarily order of implementation.
   - [x] LAN (Local) support
   - [x] WAN (Wireless) support
 - [ ] Automatically save config
-- [ ] **Move worlds & settings between updates**
+- [ ] ~~Move worlds & settings between updates~~ World files aren't currently saved without debug options.
 - [ ] Discord Rich Presence
 # Legal notice
 Pythius Launcher (hereby referred to as Pythius,) is intended for educational and research purposes only. 
