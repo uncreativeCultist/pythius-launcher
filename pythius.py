@@ -90,7 +90,7 @@ with dpg.window(tag="Primary Window"):
     dpg.add_text(" ")
     dpg.add_text("Status: ", source="status")
 
-dpg.create_viewport(title="Pythius - @uncreativeCultist - v1.0.3a", width=784, height=361)
+dpg.create_viewport(title="Pythius - @uncreativeCultist - v1.0.3b", width=784, height=361)
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.set_primary_window("Primary Window", True)
