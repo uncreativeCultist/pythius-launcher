@@ -16,16 +16,16 @@ dpg.create_context()
 def download():
     directory = dpg.get_value(item="directory")
     downloadurl = dpg.get_value(item="downloadurl")
-    dpg.set_value("status", "Downloading...")
+    dpg.set_value("status", "Status: Downloading...")
     urllib.request.urlretrieve(downloadurl, "temp.zip")
     if os.path.exists(directory):
         shutil.rmtree(directory)
-    dpg.set_value("status", "Extracting...")
+    dpg.set_value("status", "Status: Extracting...")
     with ZipFile("./temp.zip", 'r') as zObject:
         zObject.extractall(
                 path=directory)
     os.remove("./temp.zip")
-    dpg.set_value("status", "Done! Legacy Console Edition has been installed!")
+    dpg.set_value("status", "Status: Done! Legacy Console Edition has been installed!")
 
 
 def singleplayer():
@@ -33,7 +33,7 @@ def singleplayer():
     ipaddr = dpg.get_value(item="ipaddr")
     port = dpg.get_value(item="port")
     username = dpg.get_value(item="username")
-    dpg.set_value("status", "Launching Legacy Console Edition...")
+    dpg.set_value("status", "Status: Launching Legacy Console Edition...")
     if os.path.exists(f'{directory}servers.txt'):
         os.remove(f'{directory}servers.txt')
     with open(f'{directory}servers.txt', 'w') as file:
@@ -43,15 +43,15 @@ def singleplayer():
     with open(f"{directory}username.txt", "w") as f:
         f.write(f"{username}")
     if not os.path.exists(directory):
-        dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
+        dpg.set_value("status", "Status: Unable to find game files! Is Legacy Console Edition installed?")
     elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
-        dpg.set_value("status", "Malformed or missing game files! Please reinstall Legacy Console Edition.")
+        dpg.set_value("status", "Status: Malformed or missing game files! Please reinstall Legacy Console Edition.")
     elif needs_wine == 1:
         os.system(f'cd {directory} && wine Minecraft.Client.exe -name "{username}"')
-        dpg.set_value("status", "Ready!")
+        dpg.set_value("status", "Status: Ready!")
     else:
         os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}"')
-        dpg.set_value("status", "Ready!")
+        dpg.set_value("status", "Status: Ready!")
 
 width, height, channels, data = dpg.load_image("./Resources/pythius.png")
 
@@ -80,15 +80,15 @@ with dpg.window(tag="Primary Window"):
     
     dpg.add_input_text(label="Username", source="username", width=240)
     dpg.add_text(" ")
-    dpg.add_text("Multiplayer Settings")
+    dpg.add_text("Multiplayer Settings (Deprecated)")
+    dpg.add_text("Note: Please use the in-game server manager instead!")
     dpg.add_input_text(label="IP Address", source="ipaddr", width=85)
     
     dpg.add_input_text(label="Port", source="port", width=45)
     
     dpg.add_button(label="Launch Minecraft: Legacy Console Edition", callback=singleplayer, width=330, pos=(439, 240))
     dpg.add_text(" ")
-    dpg.add_text("Status:")
-    dpg.add_text(source="status")
+    dpg.add_text("Status: ", source="status")
 
 dpg.create_viewport(title="Pythius - @uncreativeCultist - v1.0.3a", width=784, height=361)
 dpg.setup_dearpygui()
