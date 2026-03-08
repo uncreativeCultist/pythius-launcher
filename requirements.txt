@@ -1,1 +1,2 @@
 dearpygui==2.2
+discord-rich-presence==1.1.0

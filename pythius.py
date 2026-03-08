@@ -4,16 +4,32 @@ import os
 from zipfile import ZipFile
 import urllib.request
 import shutil
+from discordrp import Presence
+import time
 
 if platform == "win32":
     needs_wine = 0
 else:
     needs_wine = 1 #i mean its not windows so it probably needs wine
 
+with Presence("1480162454955626576") as presence:
+    presence.set(
+        {
+            "details": "In launcher",
+            "timestamps": {"start": int(time.time())},
+        }
+    )
 
 dpg.create_context()
 
 def download():
+    with Presence("1480162454955626576") as presence:
+        presence.set(
+            {
+                "details": "Downloading...",
+                "timestamps": {"start": int(time.time())},
+            }
+        )
     directory = dpg.get_value(item="directory")
     downloadurl = dpg.get_value(item="downloadurl")
     dpg.set_value("status", "Downloading...")
@@ -26,6 +42,13 @@ def download():
                 path=directory)
     os.remove("./temp.zip")
     dpg.set_value("status", "Done! Legacy Console Edition has been installed!")
+    with Presence("1480162454955626576") as presence:
+        presence.set(
+            {
+                "details": "In launcher",
+                "timestamps": {"start": int(time.time())},
+            }
+        )
 
 
 def singleplayer():
@@ -42,6 +65,15 @@ def singleplayer():
         os.remove(f'{directory}username.txt')
     with open(f"{directory}username.txt", "w") as f:
         f.write(f"{username}")
+        with Presence("1480162454955626576") as presence:
+            presence.set(
+                {
+                    "details": "In game",
+                    "timestamps": {"start": int(time.time())},
+                }
+            )
+
+
     if not os.path.exists(directory):
         dpg.set_value("status", "Unable to find game files! Is Legacy Console Edition installed?")
     elif not os.path.exists(f'{directory}Minecraft.Client.exe'):
@@ -52,6 +84,13 @@ def singleplayer():
     else:
         os.system(f'cd {directory} && Minecraft.Client.exe -name "{username}"')
         dpg.set_value("status", "Ready!")
+        with Presence("1480162454955626576") as presence:
+            presence.set(
+                {
+                    "details": "In launcher",
+                    "timestamps": {"start": int(time.time())},
+                }
+            )
 
 width, height, channels, data = dpg.load_image("./Resources/pythius.png")
 
